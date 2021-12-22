@@ -134,6 +134,7 @@ async def run(client, debug=False):
     print("debug: 134")
     fig = plt.figure(figsize=(15, 6))
     print("debug: 136")
+    print("fig: %s", fig)
     move_figure(fig, 2300, 0)
     print("debug: 138")
     ax = fig.add_subplot()
