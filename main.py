@@ -119,7 +119,7 @@ async def run(client, debug=False):
         ## Collecting ECG data for 1 second
         await asyncio.sleep(1)
         print("Plotting ECG data...")
-        print(*ecg_session_data)
+        print(*ecg_session_data, sep = ", ")
         n = n + 130
 
     plt.show()
