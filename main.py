@@ -134,6 +134,7 @@ async def run(client, debug=False):
     move_figure(fig, 2300, 0)
     ax = fig.add_subplot()
     fig.show()
+    print("Starting visualisation...")
 
     plt.title(
         "Live ECG Stream on Polar-H10", fontsize=15,
