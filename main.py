@@ -129,6 +129,7 @@ async def run(client, debug=False):
     print("Collecting ECG data...")
 
     ## Plot configurations
+    print("debug")
     plt.style.use("ggplot")
     fig = plt.figure(figsize=(15, 6))
     move_figure(fig, 2300, 0)
