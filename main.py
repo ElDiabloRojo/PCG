@@ -150,6 +150,7 @@ async def run(client, debug=False):
 
         ## Collecting ECG data for 1 second
         await asyncio.sleep(1)
+        print("Plotting ECG data...")
         plt.autoscale(enable=True, axis="y", tight=True)
         ax.plot(ecg_session_data, color="r")
         fig.canvas.draw()
