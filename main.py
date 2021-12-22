@@ -114,15 +114,15 @@ async def run(client, debug=False):
 
     n = ECG_SAMPLING_FREQ
 
-    while True:
-
+    try:
+      while True:
         ## Collecting ECG data for 1 second
         await asyncio.sleep(1)
         print("Plotting ECG data...")
         print(*ecg_session_data, sep = ", ")
         n = n + 130
-
-    plt.show()
+    except KeyboardInterrupt:
+      print('interrupted!')
 
     ## Stop the stream once data is collected
     await client.stop_notify(PMD_DATA)
