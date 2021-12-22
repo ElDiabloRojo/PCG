@@ -8,8 +8,6 @@ import time
 import pandas as pd
 from bleak import BleakClient
 from bleak.uuids import uuid16_dict
-import matplotlib.pyplot as plt
-import matplotlib
 
 """ Predefined UUID (Universal Unique Identifier) mapping are based on Heart Rate GATT service Protocol that most
 Fitness/Heart Rate device manufacturer follow (Polar H10 in this case) to obtain a specific response input from 
@@ -128,26 +126,6 @@ async def run(client, debug=False):
 
     print("Collecting ECG data...")
 
-    ## Plot configurations
-    plt.style.use("ggplot")
-    fig = plt.figure(figsize=(15, 6))
-    move_figure(fig, 2300, 0)
-    ax = fig.add_subplot()
-    try:
-      fig.show()
-    except Exception as e:
-      print(e)
-    print("Starting visualisation...")
-
-    plt.title(
-        "Live ECG Stream on Polar-H10", fontsize=15,
-    )
-    plt.ylabel("Voltage in millivolts", fontsize=15)
-    plt.xlabel(
-        "\nData source: www.pareeknikhil.medium.com | " "Author: @pareeknikhil",
-        fontsize=10,
-    )
-
     n = ECG_SAMPLING_FREQ
 
     while True:
@@ -155,10 +133,8 @@ async def run(client, debug=False):
         ## Collecting ECG data for 1 second
         await asyncio.sleep(1)
         print("Plotting ECG data...")
-        plt.autoscale(enable=True, axis="y", tight=True)
-        ax.plot(ecg_session_data, color="r")
-        fig.canvas.draw()
-        ax.set_xlim(left=n - 130, right=n)
+        sample = string(ecg_session_data)
+        print(sample)
         n = n + 130
 
     plt.show()
