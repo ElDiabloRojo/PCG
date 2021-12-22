@@ -54,20 +54,6 @@ ecg_session_data = []
 ecg_session_time = []
 
 
-## Positoning/Pinnning the real-time plot window on the screen
-def move_figure(f, x, y):
-    """Move figure's upper left corner to pixel (x, y)"""
-    backend = matplotlib.get_backend()
-    if backend == "TkAgg":
-        f.canvas.manager.window.wm_geometry("+%d+%d" % (x, y))
-    elif backend == "WXAgg":
-        f.canvas.manager.window.SetPosition((x, y))
-    else:
-        # This works for QT and GTK
-        # You can also use window.setGeometry
-        f.canvas.manager.window.move(x, y)
-
-
 ## Keyboard Interrupt Handler
 def keyboardInterrupt_handler(signum, frame):
     print("  key board interrupt received...")
