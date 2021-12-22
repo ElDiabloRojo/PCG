@@ -9,6 +9,11 @@ import pandas as pd
 from bleak import BleakClient
 from bleak.uuids import uuid16_dict
 
+from prometheus_client import start_http_server, Summary
+
+""" Define prometheus metric """
+HRM = Summary('hr_sample', 'Current bpm value for heart rate.')
+
 """ Predefined UUID (Universal Unique Identifier) mapping are based on Heart Rate GATT service Protocol that most
 Fitness/Heart Rate device manufacturer follow (Polar H10 in this case) to obtain a specific response input from 
 the device acting as an API """
@@ -114,15 +119,13 @@ async def run(client, debug=False):
 
     n = ECG_SAMPLING_FREQ
 
-    try:
-      while True:
-        ## Collecting ECG data for 1 second
-        await asyncio.sleep(1)
-        print("Plotting ECG data...")
-        print(*ecg_session_data, sep = ", ")
-        n = n + 130
-    except KeyboardInterrupt:
-      print('interrupted!')
+    while True:
+      ## Collecting ECG data for 1 second
+      await asyncio.sleep(1)
+      print("Plotting ECG data...")
+      HRM.labels('BPM').set(ecg_session_data[n])
+      HRM.labels('timestamp').set(ecg_session_time[n])
+      n = n + 130
 
     ## Stop the stream once data is collected
     await client.stop_notify(PMD_DATA)
@@ -146,6 +149,7 @@ async def main():
 
 
 if __name__ == "__main__":
+    start_http_server(9090)
     os.environ["PYTHONASYNCIODEBUG"] = str(1)
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
